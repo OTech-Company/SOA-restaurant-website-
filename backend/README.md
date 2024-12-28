@@ -99,3 +99,6 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 npm install @nestjs/mongoose mongoose
 
 npm install dotenv
+
+npm install uuid
+npm install --save-dev @types/uuid
