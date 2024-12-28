@@ -102,3 +102,5 @@ npm install dotenv
 
 npm install uuid
 npm install --save-dev @types/uuid
+
+npm run test:e2e

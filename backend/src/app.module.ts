@@ -4,19 +4,22 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './user/user.module';
+import { FoodModule } from './food/food.module'; // Import FoodModule
 import * as dotenv from 'dotenv'; // Import dotenv
+
 dotenv.config();
+
 @Module({
   imports: [
     // Database connections
     MongooseModule.forRoot(process.env.usersDB, { connectionName: 'usersDB' }),
-    // MongooseModule.forRoot(process.env.DB, { connectionName: 'moviesDB' }),
+    MongooseModule.forRoot(process.env.foodDB, { connectionName: 'foodDB' }),
     
-    // Modules
-    UsersModule, // Assuming UserModule connects to 'usersDB'
-    // MovieModule, // MovieModule connects to 'moviesDB'
+    // Feature modules
+    UsersModule,
+    FoodModule, 
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService], // Remove any other service from here
 })
 export class AppModule {}
