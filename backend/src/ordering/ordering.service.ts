@@ -15,26 +15,30 @@ export class OrderService {
 
   // Place an order
   async placeOrder(userId: string, orderData: { foodItems: { foodId: string; quantity: number }[] }): Promise<Order> {
-    // Validate and enrich food items using FoodService
     const enrichedFoodItems = [];
+  
     for (const item of orderData.foodItems) {
-      const food = await this.foodService.findOne(item.foodId); // Use findById
+      // Validate and fetch food details
+      const food = await this.foodService.findById(item.foodId);
       if (!food || !food.isAvailable) {
         throw new BadRequestException(`Food item with ID "${item.foodId}" is not available.`);
       }
+  
+      // Enrich food item details
       enrichedFoodItems.push({
+        foodId: food._id,
         itemName: food.name,
         quantity: item.quantity,
         price: food.price,
       });
     }
-
+  
     // Calculate total amount
     const totalAmount = enrichedFoodItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0,
     );
-
+  
     // Create and save the order
     const newOrder = new this.orderModel({
       orderId: uuidv4(),
@@ -43,9 +47,10 @@ export class OrderService {
       totalAmount,
       orderDate: new Date(),
     });
-
+  
     return newOrder.save();
   }
+  
 
   // Get a specific order by ID
   async getOrder(orderId: string): Promise<Order> {

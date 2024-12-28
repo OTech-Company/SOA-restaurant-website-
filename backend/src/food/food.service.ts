@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { Food } from './food.model';
 
 @Injectable()
@@ -29,6 +29,17 @@ export class FoodService {
     return food;
   }
 
+  async findById(id: string): Promise<Food> {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`Invalid food ID: ${id}`);
+    }
+    const food = await this.foodModel.findById(id).exec();
+    if (!food) {
+      throw new NotFoundException(`Food item with ID "${id}" not found.`);
+    }
+    return food;
+  }
+  
   // Create a new food item
   async create(data: { name: string; description: string; price: number; category: string }): Promise<Food> {
     const newFood = new this.foodModel(data);
