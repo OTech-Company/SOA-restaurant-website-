@@ -3,8 +3,10 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './user/user.module';
+import { UserModule } from './user/user.module';
 import { FoodModule } from './food/food.module'; // Import FoodModule
+import { ReservationModule } from './reservation/reservation.module';
+import { OrderModule } from './ordering/ordering.module';
 import * as dotenv from 'dotenv'; // Import dotenv
 
 dotenv.config();
@@ -14,10 +16,14 @@ dotenv.config();
     // Database connections
     MongooseModule.forRoot(process.env.usersDB, { connectionName: 'usersDB' }),
     MongooseModule.forRoot(process.env.foodDB, { connectionName: 'foodDB' }),
+    MongooseModule.forRoot(process.env.ordersDB, { connectionName: 'ordersDB' }),
+    MongooseModule.forRoot(process.env.reservationsDB, { connectionName: 'reservationsDB' }),
     
     // Feature modules
-    UsersModule,
+    UserModule,
     FoodModule, 
+    OrderModule,
+    ReservationModule,
   ],
   controllers: [AppController],
   providers: [AppService], // Remove any other service from here

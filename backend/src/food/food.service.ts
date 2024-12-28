@@ -6,6 +6,7 @@ import { Food } from './food.model';
 
 @Injectable()
 export class FoodService {
+
   constructor(
     @InjectModel('Food', 'foodDB') // Specify the schema name and connection
     private readonly foodModel: Model<Food>,
