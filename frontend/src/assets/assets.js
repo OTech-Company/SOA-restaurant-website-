@@ -82,8 +82,7 @@ export const assets = {
     parcel_icon
 }
 
-export const menu_list = [
-    {
+export const menu_list = [{
         menu_name: "Salad",
         menu_image: menu_1
     },
@@ -114,10 +113,10 @@ export const menu_list = [
     {
         menu_name: "Noodles",
         menu_image: menu_8
-    }]
+    }
+]
 
-export const food_list = [
-    {
+export const food_list = [{
         _id: "1",
         name: "Greek salad",
         image: food_1,
