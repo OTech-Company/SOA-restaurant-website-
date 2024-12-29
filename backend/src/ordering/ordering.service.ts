@@ -20,7 +20,7 @@ export class OrderService {
     for (const item of orderData.foodItems) {
       // Validate and fetch food details
       const food = await this.foodService.findById(item.foodId);
-      if (!food || !food.isAvailable) {
+      if (!food ) {
         throw new BadRequestException(`Food item with ID "${item.foodId}" is not available.`);
       }
   

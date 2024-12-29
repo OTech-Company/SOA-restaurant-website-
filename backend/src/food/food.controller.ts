@@ -1,43 +1,46 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UploadedFile,
+  UseInterceptors,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { FoodService } from './food.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('food')
 export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
-  // Get all food items
-  @Get()
-  async findAll() {
-    return this.foodService.findAll();
-  }
-
-  // Get a single food item by ID
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.foodService.findOne(id);
-  }
-
-  // Create a new food item
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createFoodDto: { name: string; description: string; price: number; category: string }) {
-    return this.foodService.create(createFoodDto);
-  }
-
-  // Update a food item
-  @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateFoodDto: Partial<{ name: string; description: string; price: number; category: string; isAvailable: boolean }>,
+  // Add a new food item with an image
+  @Post('add')
+  @UseInterceptors(FileInterceptor('image'))
+  async addFood(
+    @Body() body: { name: string; description: string; price: number; category: string },
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.foodService.update(id, updateFoodDto);
+    console.log('Uploaded File:', file); // Debug log to check filename
+    const data = { ...body, image: file.filename };
+    return this.foodService.create(data);
   }
+  
 
-  // Delete a food item
-  @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id') id: string) {
-    await this.foodService.delete(id);
+  // List all food items
+  @Get('list')
+  async listFood() {
+    const foods = await this.foodService.findAll();
+    console.log('Foods:', foods); // Debug log
+    return { success: true, data: foods };
+  }
+  
+
+  @Delete('remove/:id') // Matches /food/remove/:id
+  async removeFood(@Param('id') id: string) {
+    await this.foodService.deleteWithImage(id); // Call deleteWithImage
+    return { success: true, message: 'Food item removed successfully, along with its image.' };
   }
 }

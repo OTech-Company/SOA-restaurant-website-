@@ -5,8 +5,8 @@ export interface Food extends Document {
   name: string;
   description: string;
   price: number;
-  category: string; // e.g., Appetizer, Main Course, Dessert, etc.
-  isAvailable: boolean;
+  category: string;
+  image: string; // Path to the food image
 }
 
 export const FoodSchema = new Schema({
@@ -14,7 +14,8 @@ export const FoodSchema = new Schema({
   description: { type: String },
   price: { type: Number, required: true },
   category: { type: String, required: true },
-  isAvailable: { type: Boolean, default: true },
+  image: { type: String, required: true },
 });
+
 
 export const FoodModel = model<Food>('Food', FoodSchema);
