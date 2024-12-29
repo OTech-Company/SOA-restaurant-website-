@@ -14,7 +14,7 @@ const Login = () => {
 
     // Simulate an API request to authenticate user
     try {
-      if (email === "user@example.com" && password === "password123") {
+      if (email === "user@example.com" && password === "password_123") {
         history.push("/dashboard");
       } else {
         setError("Invalid email or password");

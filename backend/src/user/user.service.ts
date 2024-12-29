@@ -128,7 +128,7 @@ export class UserService {
       }
   
       // Validate password strength
-      if (!validator.isStrongPassword(password, { minLength: 8, minSymbols: 1 })) {
+      if (!validator.isStrongPassword(password, { minLength: 8 })) {
         throw new BadRequestException('Password must be at least 8 characters long with 1 symbol.');
       }
       
