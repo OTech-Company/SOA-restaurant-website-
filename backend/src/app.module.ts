@@ -8,7 +8,7 @@ import { FoodModule } from './food/food.module'; // Import FoodModule
 import { ReservationModule } from './reservation/reservation.module';
 import { OrderModule } from './ordering/ordering.module';
 import * as dotenv from 'dotenv'; // Import dotenv
-
+import { AuthModule } from './auth/auth.module'; // Import AuthModule
 dotenv.config();
 
 @Module({
@@ -24,6 +24,7 @@ dotenv.config();
     FoodModule, 
     OrderModule,
     ReservationModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService], // Remove any other service from here

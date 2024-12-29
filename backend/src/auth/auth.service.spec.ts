@@ -1,19 +1,20 @@
 /* eslint-disable prettier/prettier */
-import { Test, TestingModule } from '@nestjs/testing';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
+import { SignUpDto } from './dto/signup.dto';
 
-describe('AuthService', () => {
-  let service: AuthService;
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
-    }).compile();
+  @Post('/signup')
+  signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
+    return this.authService.signUp(signUpDto);
+  }
 
-    service = module.get<AuthService>(AuthService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+  @Get('/login')
+  login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
+    return this.authService.login(loginDto);
+  }
+}
