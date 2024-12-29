@@ -31,4 +31,31 @@ export class UserController {
   async deleteUser(@Param('id') userId: string) {
     return this.userService.deleteUser(userId);
   }
+
+  // Add an item to the user's cart
+  @Post('cart/add')
+  async addToCart(
+    @Body() body: { userId: string; itemId: string },
+  ): Promise<{ success: boolean; message: string }> {
+    const { userId, itemId } = body;
+    return this.userService.addToCart(userId, itemId);
+  }
+
+  // Remove an item from the user's cart
+  @Post('cart/remove')
+  async removeFromCart(
+    @Body() body: { userId: string; itemId: string },
+  ): Promise<{ success: boolean; message: string }> {
+    const { userId, itemId } = body;
+    return this.userService.removeFromCart(userId, itemId);
+  }
+
+  // Fetch the user's cart data
+  @Get('cart')
+  async getCart(
+    @Body() body: { userId: string },
+  ): Promise<{ success: boolean; cartData: Record<string, number> }> {
+    const { userId } = body;
+    return this.userService.getCart(userId);
+  }
 }

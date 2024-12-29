@@ -35,4 +35,49 @@ export class UserService {
     const result = await this.userModel.findByIdAndDelete(userId).exec();
     if (!result) throw new NotFoundException('User not found');
   }
+
+  // Add an item to the user's cart
+  async addToCart(userId: string, itemId: string): Promise<{ success: boolean; message: string }> {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    const cartData = user.cartData || {};
+    cartData[itemId] = (cartData[itemId] || 0) + 1;
+
+    await this.userModel.findByIdAndUpdate(userId, { cartData });
+    return { success: true, message: 'Added to cart' };
+  }
+
+  // Remove an item from the user's cart
+  async removeFromCart(userId: string, itemId: string): Promise<{ success: boolean; message: string }> {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    const cartData = user.cartData || {};
+    if (cartData[itemId]) {
+      cartData[itemId] -= 1;
+      if (cartData[itemId] <= 0) {
+        delete cartData[itemId]; // Remove the item completely if quantity is 0 or less
+      }
+    }
+
+    await this.userModel.findByIdAndUpdate(userId, { cartData });
+    return { success: true, message: 'Removed from cart' };
+  }
+
+  // Fetch the user's cart data
+  async getCart(userId: string): Promise<{ success: boolean; cartData: Record<string, number> }> {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    const cartData = user.cartData || {};
+    return { success: true, cartData };
+  }
+
 }
