@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import './login.module.css';
+import { useNavigate } from "react-router-dom";
+import "./login.module.css";
 
 const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,9 +27,9 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-left">
-        <img 
-          src="file:///C:/Users/lenovo/Downloads/restoran-1.0.0/restoran-1.0.0/img/video.jpg" 
-          alt="Restaurant" 
+        <img
+          src="file:///C:/Users/lenovo/Downloads/restoran-1.0.0/restoran-1.0.0/img/video.jpg"
+          alt="Restaurant"
           className="login-image"
         />
       </div>

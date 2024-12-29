@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import './register.module.css';  
+import { useNavigate } from "react-router-dom";
+import "./register.module.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -9,7 +9,7 @@ const Register = () => {
   const [location, setLocation] = useState("");
   const [gender, setGender] = useState("");
   const [error, setError] = useState(null);
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -30,9 +30,9 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-left">
-        <img 
-          src="file:///C:/Users/lenovo/Downloads/restoran-1.0.0/restoran-1.0.0/img/video.jpg" 
-          alt="Restaurant" 
+        <img
+          src="file:///C:/Users/lenovo/Downloads/restoran-1.0.0/restoran-1.0.0/img/video.jpg"
+          alt="Restaurant"
           className="register-image"
         />
       </div>
@@ -87,7 +87,7 @@ const Register = () => {
                     value="male"
                     checked={gender === "male"}
                     onChange={(e) => setGender(e.target.value)}
-                  /> 
+                  />
                   Male
                 </label>
                 <label>
@@ -97,7 +97,7 @@ const Register = () => {
                     value="female"
                     checked={gender === "female"}
                     onChange={(e) => setGender(e.target.value)}
-                  /> 
+                  />
                   Female
                 </label>
               </div>
