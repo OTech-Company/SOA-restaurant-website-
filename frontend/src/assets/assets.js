@@ -79,7 +79,8 @@ export const assets = {
     profile_icon,
     logout_icon,
     bag_icon,
-    parcel_icon
+    parcel_icon,
+    header_img: require('./header_img.png')  
 }
 
 export const menu_list = [{
