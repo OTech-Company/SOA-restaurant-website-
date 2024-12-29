@@ -7,6 +7,20 @@ import { User } from './user.model';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+
+   // Login User
+   @Post('login')
+   async loginUser(@Body() body: { email: string; password: string }) {
+     const { email, password } = body;
+     return this.userService.loginUser(email, password);
+   }
+ 
+   // Register User
+   @Post('register')
+   async registerUser(@Body() body: { name: string; email: string; password: string }) {
+     const { name, email, password } = body;
+     return this.userService.registerUser(name, email, password);
+   }
   @Get()
   async getAllUsers() {
     return this.userService.findAll();
