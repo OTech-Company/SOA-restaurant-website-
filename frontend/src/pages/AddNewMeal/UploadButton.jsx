@@ -25,7 +25,7 @@ const Upload = () => {
         <div className="text">
           <span>Click to upload image</span>
         </div>
-        <input id="file" type="file" required />
+        <input id="file" type="file" name="image" required />
       </label>
     </StyledWrapper>
   );

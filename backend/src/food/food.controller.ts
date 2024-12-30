@@ -1,8 +1,18 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { FoodService } from './food.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from "@nestjs/common";
+import { FoodService } from "./food.service";
 
-@Controller('food')
+@Controller("food")
 export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
@@ -13,31 +23,51 @@ export class FoodController {
   }
 
   // Get a single food item by ID
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get(":id")
+  async findOne(@Param("id") id: string) {
     return this.foodService.findOne(id);
   }
-
+  // Get a single food item by ID
+  @Get(":id")
+  async findOne(@Param("id") id: string) {
+    return this.foodService.findOne(id);
+  }
   // Create a new food item
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createFoodDto: { name: string; description: string; price: number; category: string }) {
+  async create(
+    @Body() createFoodDto: {
+      image: string;
+      category: string;
+      name: string;
+      description: string;
+      price: number;
+    },
+  ) {
+    console.log(createFoodDto);
     return this.foodService.create(createFoodDto);
   }
 
   // Update a food item
-  @Put(':id')
+  @Put(":id")
   async update(
-    @Param('id') id: string,
-    @Body() updateFoodDto: Partial<{ name: string; description: string; price: number; category: string; isAvailable: boolean }>,
+    @Param("id") id: string,
+    @Body() updateFoodDto: Partial<
+      {
+        name: string;
+        description: string;
+        price: number;
+        category: string;
+      }
+    >,
   ) {
     return this.foodService.update(id, updateFoodDto);
   }
 
   // Delete a food item
-  @Delete(':id')
+  @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param('id') id: string) {
+  async delete(@Param("id") id: string) {
     await this.foodService.delete(id);
   }
 }

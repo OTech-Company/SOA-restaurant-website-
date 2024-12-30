@@ -11,6 +11,7 @@ import Verify from "./pages/Verify/Verify";
 import Login from "./pages/Home/login/login"; // Adjust path as necessary
 import Register from "./pages/Home/Register/Register"; // Adjust path as necessary
 import NewMeal from "./pages/AddNewMeal/AddNewMeal";
+import Meal from "./pages/Meal/Meal";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -23,6 +24,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/newmeal" element={<NewMeal />} />
+          <Route path="/meal/:id" element={<Meal />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/verify" element={<Verify />} />
