@@ -1,72 +1,69 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from './order.model';
-import { FoodService } from '../food/food.service'; // Import FoodService
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectModel('Order', 'ordersDB') private readonly orderModel: Model<Order>,
-    private readonly foodService: FoodService, // Integrate FoodService
-  ) {}
+    @InjectModel('Order') private readonly orderModel: Model<Order>, 
+    
+  ) {
+    console.log('OrderService initialized with orderModel:', this.orderModel);
 
-  // Place an order
-  async placeOrder(userId: string, orderData: { foodItems: { foodId: string; quantity: number }[] }): Promise<Order> {
-    const enrichedFoodItems = [];
-  
-    for (const item of orderData.foodItems) {
-      // Validate and fetch food details
-      const food = await this.foodService.findById(item.foodId);
-      if (!food ) {
-        throw new BadRequestException(`Food item with ID "${item.foodId}" is not available.`);
-      }
-  
-      // Enrich food item details
-      enrichedFoodItems.push({
-        foodId: food._id,
-        itemName: food.name,
-        quantity: item.quantity,
-        price: food.price,
-      });
+  }
+
+  // Place a new order
+  async placeOrder(data: {
+    userId: string;
+    items: Array<{ name: string; price: number; quantity: number }>;
+    amount: number;
+    address: Record<string, any>;
+  }): Promise<{ success: boolean; message: string }> {
+    const newOrder = new this.orderModel(data);
+    await newOrder.save();
+    return { success: true, message: 'Order placed successfully' };
+  }
+
+  // Verify an order payment
+  async verifyOrder(orderId: string, success: boolean): Promise<{ success: boolean; message: string }> {
+    const order = await this.orderModel.findById(orderId);
+    if (!order) {
+      throw new NotFoundException('Order not found');
     }
-  
-    // Calculate total amount
-    const totalAmount = enrichedFoodItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0,
-    );
-  
-    // Create and save the order
-    const newOrder = new this.orderModel({
-      orderId: uuidv4(),
-      userId,
-      foodItems: enrichedFoodItems,
-      totalAmount,
-      orderDate: new Date(),
-    });
-  
-    return newOrder.save();
-  }
-  
 
-  // Get a specific order by ID
-  async getOrder(orderId: string): Promise<Order> {
-    const order = await this.orderModel.findOne({ orderId }).exec();
-    if (!order) throw new NotFoundException(`Order with ID "${orderId}" not found.`);
-    return order;
+    if (success) {
+      order.payment = true;
+      await order.save();
+      return { success: true, message: 'Order verified and paid' };
+    } else {
+      await this.orderModel.findByIdAndDelete(orderId);
+      return { success: false, message: 'Order verification failed and deleted' };
+    }
   }
 
-  // Get all orders for a user
-  async getUserOrders(userId: string): Promise<Order[]> {
-    return this.orderModel.find({ userId }).exec();
+  // Get orders for a user
+  async userOrders(userId: string): Promise<{ success: boolean; data: Order[] }> {
+    const orders = await this.orderModel.find({ userId }).exec();
+    return { success: true, data: orders };
   }
 
-  // Cancel an order
-  async cancelOrder(orderId: string): Promise<void> {
-    const result = await this.orderModel.findOneAndDelete({ orderId }).exec();
-    if (!result) throw new NotFoundException(`Order with ID "${orderId}" not found.`);
+  // List all orders (admin panel)
+  async listOrders(): Promise<{ success: boolean; data: Order[] }> {
+    const orders = await this.orderModel.find().exec();
+    return { success: true, data: orders };
+  }
+
+  // Update order status
+  async updateStatus(orderId: string, status: string): Promise<{ success: boolean; message: string }> {
+    const order = await this.orderModel.findById(orderId);
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+
+    order.status = status;
+    await order.save();
+    return { success: true, message: 'Order status updated successfully' };
   }
 }

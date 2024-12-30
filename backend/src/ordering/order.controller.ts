@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Get, Delete, Param, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body} from '@nestjs/common';
 import { OrderService } from './order.service';
 
 @Controller('order')
@@ -7,31 +7,39 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   // Place an order
-  @Post(':userId')
-  @HttpCode(HttpStatus.CREATED)
-  async placeOrder(
-    @Param('userId') userId: string,
-    @Body() orderData: { foodItems: { foodId: string; quantity: number }[] },
-  ) {
-    return this.orderService.placeOrder(userId, orderData);
+  @Post('place')
+  async placeOrder(@Body() body: {
+    userId: string;
+    items: Array<{ name: string; price: number; quantity: number }>;
+    amount: number;
+    address: Record<string, any>;
+  }) {
+    return this.orderService.placeOrder(body);
   }
 
-  // Get a specific order by orderId
-  @Get(':orderId')
-  async getOrder(@Param('orderId') orderId: string) {
-    return this.orderService.getOrder(orderId);
+  // Verify an order payment
+  @Post('verify')
+  async verifyOrder(@Body() body: { orderId: string; success: boolean }) {
+    const { orderId, success } = body;
+    return this.orderService.verifyOrder(orderId, success);
   }
 
-  // Get all orders for a user
-  @Get('user/:userId')
-  async getUserOrders(@Param('userId') userId: string) {
-    return this.orderService.getUserOrders(userId);
+  // Get user-specific orders
+  @Post('userorders')
+  async userOrders(@Body() body: { userId: string }) {
+    return this.orderService.userOrders(body.userId);
   }
 
-  // Cancel an order
-  @Delete(':orderId')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async cancelOrder(@Param('orderId') orderId: string) {
-    return this.orderService.cancelOrder(orderId);
+  // List all orders (admin panel)
+  @Get('list')
+  async listOrders() {
+    return this.orderService.listOrders();
+  }
+
+  // Update order status
+  @Post('status')
+  async updateStatus(@Body() body: { orderId: string; status: string }) {
+    const { orderId, status } = body;
+    return this.orderService.updateStatus(orderId, status);
   }
 }
