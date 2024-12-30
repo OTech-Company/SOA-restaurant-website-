@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { FoodModule } from './food/food.module'; // Import FoodModule
 import { ReservationModule } from './reservation/reservation.module';
-import { OrderModule } from './ordering/ordering.module';
+import { OrderModule } from './ordering/order.module';
 import * as dotenv from 'dotenv'; // Import dotenv
 
 dotenv.config();
@@ -21,11 +21,11 @@ dotenv.config();
     
     // Feature modules
     UserModule,
-    FoodModule, 
+    FoodModule,
     OrderModule,
     ReservationModule,
   ],
   controllers: [AppController],
-  providers: [AppService], // Remove any other service from here
+  providers: [AppService],
 })
 export class AppModule {}
