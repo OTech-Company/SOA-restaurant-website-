@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const NewMeal = () => {
+const Upload = () => {
   return (
     <StyledWrapper>
       <label htmlFor="file" className="custum-file-upload">
@@ -25,7 +25,7 @@ const NewMeal = () => {
         <div className="text">
           <span>Click to upload image</span>
         </div>
-        <input id="file" type="file" />
+        <input id="file" type="file" required />
       </label>
     </StyledWrapper>
   );
@@ -75,4 +75,4 @@ const StyledWrapper = styled.div`
     display: none;
   }`;
 
-export default NewMeal;
+export default Upload;
