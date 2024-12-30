@@ -1,0 +1,88 @@
+/* DashboardPage.css */
+
+/* Overall Layout */
+.dashboard-page {
+    display: flex;
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    background-color: #1e1e2f; /* Dark background */
+    color: #ffffff; /* Light text for contrast */
+  }
+  
+  /* Sidebar Styles */
+  .dashboard-sidebar {
+    width: 250px;
+    background-color: #28293e; /* Darker sidebar background */
+    color: #ffffff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dashboard-sidebar nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .dashboard-sidebar nav ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    background-color: #33354a; /* Default button color */
+    color: #ffffff;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .dashboard-sidebar nav ul li img.menu-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: invert(1); /* Makes icons white for contrast */
+  }
+  
+  .dashboard-sidebar nav ul li:hover {
+    background-color: #ff7f11; /* Bright orange for hover */
+    color: #1e1e2f; /* Dark text on hover */
+    transform: translateX(5px); /* Interactive movement */
+  }
+  
+  .dashboard-sidebar nav ul li.active {
+    background-color: #ff7f11; /* Highlight active section */
+    color: #1e1e2f;
+    transform: translateX(5px);
+  }
+  
+  /* Main Content Styles */
+  .dashboard-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #1e1e2f; /* Match background to theme */
+    overflow-y: auto;
+  }
+  
+  .dashboard-content header h1 {
+    margin: 0 0 20px;
+    font-size: 2.2em;
+    color: #ff7f11; /* Bright orange for heading */
+  }
+  
+  .dashboard-content section {
+    padding: 20px;
+    background-color: #28293e; /* Slightly lighter for content boxes */
+    border: 1px solid #33354a;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .dashboard-content section:hover {
+    background-color: #33354a; /* Slightly lighter hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
+  }
+  
