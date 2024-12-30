@@ -30,6 +30,14 @@ export class FoodService {
     }
     return food;
   }
+  // Get a single food item by ID
+  async findByCategory(category: string): Promise<any> {
+    const food = await this.foodModel.find({ "category": category }).exec();
+    if (!food) {
+      throw new NotFoundException(`Food with category ${category} not found`);
+    }
+    return food;
+  }
 
   async findById(id: string): Promise<Food> {
     if (!isValidObjectId(id)) {
