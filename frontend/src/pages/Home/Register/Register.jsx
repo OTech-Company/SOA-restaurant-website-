@@ -1,6 +1,7 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import './register.module.css';  
+import "./register.module.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -16,12 +17,11 @@ const Register = () => {
 
     // Simulate an API request to register user
     try {
-      // You can add your registration logic here
-      if (name && email && password && location && gender) {
-        history.push("/dashboard");
-      } else {
-        setError("Please fill in all fields.");
-      }
+      axios.post("http://localhost:3000/user/register", {
+        name: name,
+        email: email,
+        password: password,
+      });
     } catch (err) {
       setError("An error occurred during registration.");
     }
@@ -30,9 +30,9 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-left">
-        <img 
-          src="file:///C:/Users/lenovo/Downloads/restoran-1.0.0/restoran-1.0.0/img/video.jpg" 
-          alt="Restaurant" 
+        <img
+          src="file:///C:/Users/lenovo/Downloads/restoran-1.0.0/restoran-1.0.0/img/video.jpg"
+          alt="Restaurant"
           className="register-image"
         />
       </div>
@@ -87,7 +87,7 @@ const Register = () => {
                     value="male"
                     checked={gender === "male"}
                     onChange={(e) => setGender(e.target.value)}
-                  /> 
+                  />
                   Male
                 </label>
                 <label>
@@ -97,7 +97,7 @@ const Register = () => {
                     value="female"
                     checked={gender === "female"}
                     onChange={(e) => setGender(e.target.value)}
-                  /> 
+                  />
                   Female
                 </label>
               </div>
