@@ -25,6 +25,7 @@ export class FoodController {
   // Get a single food item by ID
   @Get(":id")
   async findOne(@Param("id") id: string) {
+    console.log("id " + id);
     return this.foodService.findOne(id);
   }
   // Get a single food item by ID
