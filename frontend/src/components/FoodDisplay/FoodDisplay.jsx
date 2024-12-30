@@ -2,10 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import "./FoodDisplay.css";
 import { StoreContext } from "../../context/StoreContext";
 import FoodItem from "../FoodItem/FoodItem";
+import axios from "axios";
 
 const FoodDisplay = ({ category }) => {
-  const food_list = useState([]);
+  const [food_list, setFoodList] = useState([]);
   useEffect(() => {
+    const getMealsInCategory = async () => {
+      const data = await axios.get(
+        `http://localhost:3000/food/bycategory/${category}`,
+      );
+      setFoodList(data.data);
+    };
+    getMealsInCategory();
   }, []);
   return (
     <div className="food-display" id="food-display">
@@ -31,4 +39,3 @@ const FoodDisplay = ({ category }) => {
 };
 
 export default FoodDisplay;
-

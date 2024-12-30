@@ -14,7 +14,7 @@ import { FoodService } from "./food.service";
 
 @Controller("food")
 export class FoodController {
-  constructor(private readonly foodService: FoodService) {}
+  constructor(private readonly foodService: FoodService) { }
 
   // Get all food items
   @Get()
@@ -28,9 +28,10 @@ export class FoodController {
     return this.foodService.findOne(id);
   }
   // Get a single food item by ID
-  @Get(":id")
-  async findOne(@Param("id") id: string) {
-    return this.foodService.findOne(id);
+  @Get("bycategory/:category")
+  async findByCategory(@Param("category") category: string) {
+    if (category == "All") return this.foodService.findAll();
+    return this.foodService.findOne(category);
   }
   // Create a new food item
   @Post()
