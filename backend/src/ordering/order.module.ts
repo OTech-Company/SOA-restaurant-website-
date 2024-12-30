@@ -1,13 +1,15 @@
 /* eslint-disable prettier/prettier */
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
+import { OrderController } from './order.controller';
 import { OrderSchema } from './order.model';
+import { FoodModule } from '../food/food.module'; // Import FoodModule
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Order', schema: OrderSchema }], 'ordersDB'), // 'ordersDB' matches the connection name
+    MongooseModule.forFeature([{ name: 'Order', schema: OrderSchema }], 'ordersDB'),
+    forwardRef(() => FoodModule), 
   ],
   controllers: [OrderController],
   providers: [OrderService],
