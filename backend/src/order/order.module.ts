@@ -5,9 +5,11 @@ import { OrderService } from "./order.service";
 import { OrderController } from "./order.controller";
 import { OrderSchema } from "./order.model";
 import { FoodModule } from "../food/food.module"; // Import FoodModule
+import { UserModule } from "src/user/user.module";
 
 @Module({
   imports: [
+    forwardRef(() => UserModule), // Use forwardRef here
     forwardRef(() => FoodModule),
     MongooseModule.forFeature(
       [{ name: "Order", schema: OrderSchema }],
@@ -15,7 +17,8 @@ import { FoodModule } from "../food/food.module"; // Import FoodModule
     ),
   ],
   controllers: [OrderController],
-  providers: [OrderService],
+  providers: [OrderService ],
+  
 })
 export class OrderModule { }
 

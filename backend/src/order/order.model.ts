@@ -25,7 +25,7 @@ export const OrderSchema = new Schema(
     address: { type: Object, required: true },
     status: { type: String, default: "Food Processing" },
     date: { type: Date, default: Date.now },
-    payment: { type: Boolean, default: false },
+    payment: { type: Boolean, default: true },
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt fields
